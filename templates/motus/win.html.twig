@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %} 
+<h1>Vous avez gagné</h1>
+    {% if win>1 %}
+        <h2>Vous avez {{ win }} victoires</h2>
+    {% endif %}
+    {% set indexRoute = path('app_motus') %}
+    <a href="{{ indexRoute }}" class="btn btn-primary">Retour à l'accueil</a>
+{% endblock %}

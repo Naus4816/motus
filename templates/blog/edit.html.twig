@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Edition de l'article {{article.title}} </h1>
+    <p>
+        <a href="{{ path('app_blog_article', {slug: article.slug}) }}" class="btn btn-secondary">Retour</a>
+    </p>
+    <div class="row">
+        {{ form(form) }}
+    </div>
+{% endblock %}

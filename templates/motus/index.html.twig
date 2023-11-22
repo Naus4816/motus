@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block body %} 
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a; /* couleur du fond */
+            color: #fff; /* couleur du texte*/
+            margin: 20px;
+            transition: background-color 0.5s ease;
+        }
+
+        h1, h2 {
+            color: #4d94ff; /* change la couleur des titres */
+            transition: color 0.5s ease;
+        }
+
+        .tableau { /*créé le tableau */
+            margin-top: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .cases {
+            background-color: #333; /* couleur des cases */
+        }
+
+        .case {
+            border: 1px solid #555; /* Slightly lighter border color */
+            padding: 8px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .case-R {
+            background-color: #ff3333; /* Light red background for 'R' */
+            color: #fff;
+        }
+
+        .case-B {
+            background-color: #3399ff; /* Light blue background for 'B' */
+            color: #fff;
+        }
+
+        .case-J {
+            background-color: #ffd633; /* Light yellow background for 'J' */
+        }
+
+        #mot {
+            padding: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-warning {
+            background-color: #ffcc00; /* Yellow button background */
+            color: #333; /* Dark text color for the button */
+            border: 1px solid #ff9900; /* Slightly darker border color */
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-warning:hover {
+            background-color: #ff9900; /* couleur du hover*/
+            color: #fff; /* Light text color on hover */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Apply fadeIn animation to cells */
+        .animate {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+
+    <script>
+        function blindage(event) {
+            const mot = document.getElementById("mot");
+            const blinde = new RegExp("^[A-Za-z]+$");
+            if (event.key.length === 1 && !blinde.test(event.key)) {
+                event.preventDefault();
+            }
+        }
+
+
+    </script>
+
+    <h1>MOTUS</h1>
+    <h2> Le mot comporte {{jourlength}} lettres </h2>
+    
+    <div id="tableau" class="tableau">
+        <table>
+            <tr class="cases">
+                {% for i in 1..jourlength %}
+                    {% if i==1 %}
+                        <td class="case case-{{ jour[0] }}">{{ jour[0] }}</td>  
+                    {% else %}
+                        <td class="case"></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% for row in tableau[0:] %}
+                <tr>
+                    {% for index,cell in row %}
+                        {# Check the color code and assign the appropriate CSS class #}
+                        {% set colorClass = cell == 'R' ? 'case-R' : (cell == 'B' ? 'case-B' : (cell == 'J' ? 'case-J' : '')) %}
+                        {% if mot|length > index %}
+                            <td class="case {{ colorClass }}">{{ mot[index] }}</td>
+                        {% else %}
+                            <td class="case {{ colorClass }}"></td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_row(form.mot, {'attr': {'maxlength': jourlength, 'minlength': jourlength, 'id': 'mot', 'onkeydown': 'blindage(event)'}}) }}
+    <button type="submit" class="btn btn-warning" id="essai">Valider</button>
+    {{ form_end(form) }}
+{% endblock %}

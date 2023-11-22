@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block body %} 
+    <div class="row">
+        {{ form(form) }}
+    </div>
+    <button type="submit" class="btn btn-secondary" id="essai" href="{{ path('app_motus')}}">Valider</button>
+{% endblock %}

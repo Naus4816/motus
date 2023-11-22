@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Nouvel article </h1>
+    <p>
+        <a href="{{ path('app_blog') }}" class="btn btn-secondary">Retour</a>
+    </p>
+    <div class="row">
+        {{ form(form) }}
+    </div>
+{% endblock %}
